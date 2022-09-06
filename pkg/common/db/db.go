@@ -3,6 +3,7 @@ package db
 import (
 	"log"
 
+	"github.com/preechamung/task-management-fe/pkg/common/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -14,7 +15,8 @@ func Init(url string) *gorm.DB {
 		log.Fatalln(err)
 	}
 
-	// db.AutoMigrate(&models.Book{})
+	db.AutoMigrate(&models.Project{})
+	db.AutoMigrate(&models.ProjectStatus{})
 
 	return db
 }
