@@ -5,6 +5,7 @@ import (
 	"github.com/preechamung/task-management-fe/pkg/common/db"
 	"github.com/preechamung/task-management-fe/pkg/project_statuses"
 	"github.com/preechamung/task-management-fe/pkg/projects"
+	"github.com/preechamung/task-management-fe/pkg/users"
 	"github.com/spf13/viper"
 )
 
@@ -18,8 +19,10 @@ func main() {
 	r := gin.Default()
 	h := db.Init(dbUrl)
 
+	users.RegisterRoutes(r, h)
 	projects.RegisterRoutes(r, h)
 	project_statuses.RegisterRoutes(r, h)
+
 	// register more routes here
 
 	r.Run(port)

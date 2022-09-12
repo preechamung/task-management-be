@@ -12,7 +12,7 @@ func (h handler) GetProject(c *gin.Context) {
 
 	var project models.Project
 
-	if result := h.DB.Preload("Statuses").Find(&project, id); result.Error != nil {
+	if result := h.DB.Preload("Permissions").Preload("Statuses").Find(&project, id); result.Error != nil {
 		c.AbortWithError(http.StatusNotFound, result.Error)
 		return
 	}

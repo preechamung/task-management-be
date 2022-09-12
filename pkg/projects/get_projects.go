@@ -10,7 +10,7 @@ import (
 func (h handler) GetProjects(c *gin.Context) {
 	var projects []models.Project
 
-	if result := h.DB.Preload("Statuses").Find(&projects); result.Error != nil {
+	if result := h.DB.Preload("Permissions").Preload("Statuses").Find(&projects); result.Error != nil {
 		c.AbortWithError(http.StatusNotFound, result.Error)
 		return
 	}

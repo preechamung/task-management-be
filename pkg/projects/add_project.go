@@ -11,6 +11,7 @@ type AddProjectRequestBody struct {
 	Name        string `json:"name"`
 	Title       string `json:"title"`
 	Description string `json:"description"`
+	UserId      string `json:"user_id"`
 }
 
 func (h handler) AddProject(c *gin.Context) {
@@ -27,6 +28,9 @@ func (h handler) AddProject(c *gin.Context) {
 	project.Name = body.Name
 	project.Title = body.Title
 	project.Description = body.Description
+	project.Permissions = []models.Permission{
+		{Role: "owner"},
+	}
 
 	if result := h.DB.Create(&project); result.Error != nil {
 		c.AbortWithError(http.StatusNotFound, result.Error)
