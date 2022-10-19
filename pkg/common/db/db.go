@@ -15,9 +15,6 @@ func Init(url string) *gorm.DB {
 		log.Fatalln(err)
 	}
 
-	db.AutoMigrate(&models.Project{})
-	db.AutoMigrate(&models.ProjectStatus{})
-	db.AutoMigrate(&models.Permission{})
 	db.AutoMigrate(&models.User{})
 
 	return db

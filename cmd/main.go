@@ -1,12 +1,20 @@
 package main
 
 import (
+	"fmt"
+	"log"
+	"net/http"
+
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/preechamung/task-management-fe/pkg/auth"
 	"github.com/preechamung/task-management-fe/pkg/common/db"
-	"github.com/preechamung/task-management-fe/pkg/project_statuses"
-	"github.com/preechamung/task-management-fe/pkg/projects"
-	"github.com/preechamung/task-management-fe/pkg/users"
+	"github.com/preechamung/task-management-fe/pkg/user"
 	"github.com/spf13/viper"
+)
+
+var (
+	server *gin.Engine
 )
 
 func main() {
@@ -14,16 +22,29 @@ func main() {
 	viper.ReadInConfig()
 
 	port := viper.Get("PORT").(string)
-	dbUrl := viper.Get("DB_URL").(string)
+	dbUrl := viper.Get("POSTGRES_SOURCE").(string)
+	origin := viper.Get("ORIGIN").(string)
 
-	r := gin.Default()
+	corsConfig := cors.DefaultConfig()
+	corsConfig.AllowOrigins = []string{origin}
+	corsConfig.AllowCredentials = true
+	server = gin.Default()
+
+	server.Use(cors.New(corsConfig))
+
+	// connedt postgrest
 	h := db.Init(dbUrl)
 
-	users.RegisterRoutes(r, h)
-	projects.RegisterRoutes(r, h)
-	project_statuses.RegisterRoutes(r, h)
+	router := server.Group("/api")
 
 	// register more routes here
+	user.Route(router, h)
+	auth.Route(router, h)
 
-	r.Run(port)
+	// not found route
+	server.NoRoute(func(ctx *gin.Context) {
+		ctx.JSON(http.StatusNotFound, gin.H{"status": "fail", "message": fmt.Sprintf("Route %s not found", ctx.Request.URL)})
+	})
+
+	log.Fatal(server.Run(":" + port))
 }
