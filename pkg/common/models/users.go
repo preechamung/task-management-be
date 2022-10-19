@@ -1,8 +1,10 @@
 package models
 
 import (
+	"errors"
 	"time"
 
+	uuid "github.com/satori/go.uuid"
 	"gorm.io/gorm"
 )
 
@@ -22,7 +24,7 @@ type SignInInput struct {
 
 // db model
 type User struct {
-	Id        uint           `gorm:"primaryKey" json:"id"`
+	Id        uuid.UUID      `gorm:"primaryKey" json:"id"`
 	Name      string         `json:"name"`
 	Email     string         `gorm:"unique" json:"email"`
 	Password  string         `json:"password"`
@@ -35,7 +37,7 @@ type User struct {
 }
 
 type UserResponse struct {
-	Id        uint      `json:"id"`
+	Id        uuid.UUID `json:"id"`
 	Name      string    `json:"name"`
 	Email     string    `json:"email"`
 	Provider  string    `json:"provider"`
@@ -45,14 +47,24 @@ type UserResponse struct {
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
-func FilteredResponse(user *User) UserResponse {
+func FilteredResponse(u *User) UserResponse {
 	return UserResponse{
-		Id:        user.Id,
-		Email:     user.Email,
-		Name:      user.Name,
-		Provider:  user.Provider,
-		Photo:     user.Photo,
-		CreatedAt: user.CreatedAt,
-		UpdatedAt: user.UpdatedAt,
+		Id:        u.Id,
+		Email:     u.Email,
+		Name:      u.Name,
+		Provider:  u.Provider,
+		Photo:     u.Photo,
+		CreatedAt: u.CreatedAt,
+		UpdatedAt: u.UpdatedAt,
 	}
+}
+
+func (u *User) BeforeCreate(tx *gorm.DB) (err error) {
+	uuid, err := uuid.NewV4()
+
+	u.Id = uuid
+	if err != nil {
+		err = errors.New("can't save invalid data")
+	}
+	return
 }

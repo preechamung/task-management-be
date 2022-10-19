@@ -2,6 +2,7 @@ package auth
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/preechamung/task-management-fe/middleware"
 	"gorm.io/gorm"
 )
 
@@ -16,4 +17,7 @@ func Route(rg *gin.RouterGroup, db *gorm.DB) {
 
 	routes := rg.Group("/auth")
 	routes.POST("/register", h.SignUpUser)
+	routes.POST("/login", h.SignInUser)
+	routes.POST("/refresh", h.RefreshAccessToken)
+	routes.GET("/logout", middleware.DeserializeUser(h.DB), h.LogoutUser)
 }

@@ -8,6 +8,7 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/preechamung/task-management-fe/pkg/auth"
+	"github.com/preechamung/task-management-fe/pkg/common/config"
 	"github.com/preechamung/task-management-fe/pkg/common/db"
 	"github.com/preechamung/task-management-fe/pkg/user"
 	"github.com/spf13/viper"
@@ -21,19 +22,19 @@ func main() {
 	viper.SetConfigFile("./pkg/common/envs/.env")
 	viper.ReadInConfig()
 
-	port := viper.Get("PORT").(string)
-	dbUrl := viper.Get("POSTGRES_SOURCE").(string)
-	origin := viper.Get("ORIGIN").(string)
+	config, _ := config.LoadConfig()
+
+	fmt.Println(config)
 
 	corsConfig := cors.DefaultConfig()
-	corsConfig.AllowOrigins = []string{origin}
+	corsConfig.AllowOrigins = []string{config.Origin}
 	corsConfig.AllowCredentials = true
 	server = gin.Default()
 
 	server.Use(cors.New(corsConfig))
 
 	// connedt postgrest
-	h := db.Init(dbUrl)
+	h := db.Init(config.PostgresSource)
 
 	router := server.Group("/api")
 
@@ -46,5 +47,5 @@ func main() {
 		ctx.JSON(http.StatusNotFound, gin.H{"status": "fail", "message": fmt.Sprintf("Route %s not found", ctx.Request.URL)})
 	})
 
-	log.Fatal(server.Run(":" + port))
+	log.Fatal(server.Run(":" + config.Port))
 }
