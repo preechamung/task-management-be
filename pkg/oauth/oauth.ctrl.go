@@ -14,6 +14,6 @@ func Route(rg *gin.RouterGroup, db *gorm.DB) {
 		DB: db,
 	}
 
-	routes := rg.Group("/sessions/oauth")
-	routes.POST("/google", h.GoogleOAuth)
+	routes := rg.Group("/oauth")
+	routes.GET("/google", h.GoogleOAuth)
 }

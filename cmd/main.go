@@ -10,6 +10,7 @@ import (
 	"github.com/preechamung/task-management-fe/pkg/auth"
 	"github.com/preechamung/task-management-fe/pkg/common/config"
 	"github.com/preechamung/task-management-fe/pkg/common/db"
+	"github.com/preechamung/task-management-fe/pkg/oauth"
 	"github.com/preechamung/task-management-fe/pkg/user"
 	"github.com/spf13/viper"
 )
@@ -41,6 +42,7 @@ func main() {
 	// register more routes here
 	user.Route(router, h)
 	auth.Route(router, h)
+	oauth.Route(router, h)
 
 	// not found route
 	server.NoRoute(func(ctx *gin.Context) {
