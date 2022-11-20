@@ -1,5 +1,5 @@
 /tmp
-/pkg/common/envs/.env
+# /pkg/common/envs/.env
 # Binaries for programs and plugins
 *.exe
 *.exe~
