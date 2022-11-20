@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/preechamung/task-management-fe/pkg/common/models"
+	"github.com/preechamung/task-management-be/pkg/common/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )

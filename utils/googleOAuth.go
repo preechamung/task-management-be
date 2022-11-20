@@ -10,7 +10,7 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/preechamung/task-management-fe/pkg/common/config"
+	"github.com/preechamung/task-management-be/pkg/common/config"
 )
 
 type GoogleOauthToken struct {

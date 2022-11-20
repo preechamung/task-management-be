@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/preechamung/task-management-fe/pkg/common/models"
-	"github.com/preechamung/task-management-fe/utils"
+	"github.com/preechamung/task-management-be/pkg/common/models"
+	"github.com/preechamung/task-management-be/utils"
 )
 
 func (h handler) PostUser(c *gin.Context) {

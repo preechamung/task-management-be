@@ -2,7 +2,7 @@ package auth
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/preechamung/task-management-fe/middleware"
+	"github.com/preechamung/task-management-be/middleware"
 	"gorm.io/gorm"
 )
 

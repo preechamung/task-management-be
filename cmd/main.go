@@ -7,11 +7,11 @@ import (
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"github.com/preechamung/task-management-fe/pkg/auth"
-	"github.com/preechamung/task-management-fe/pkg/common/config"
-	"github.com/preechamung/task-management-fe/pkg/common/db"
-	"github.com/preechamung/task-management-fe/pkg/oauth"
-	"github.com/preechamung/task-management-fe/pkg/user"
+	"github.com/preechamung/task-management-be/pkg/auth"
+	"github.com/preechamung/task-management-be/pkg/common/config"
+	"github.com/preechamung/task-management-be/pkg/common/db"
+	"github.com/preechamung/task-management-be/pkg/oauth"
+	"github.com/preechamung/task-management-be/pkg/user"
 	"github.com/spf13/viper"
 )
 
@@ -20,7 +20,10 @@ var (
 )
 
 func main() {
-	viper.SetConfigFile("./pkg/common/envs/.env")
+	viper.SetConfigName(".env")
+	viper.AddConfigPath(".") // ระบุ path ของ config file
+	viper.AutomaticEnv()     // อ่าน value จาก ENV variable
+
 	viper.ReadInConfig()
 
 	config, _ := config.LoadConfig()

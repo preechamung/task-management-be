@@ -1,4 +1,4 @@
-module github.com/preechamung/task-management-fe
+module github.com/preechamung/task-management-be
 
 go 1.6
 
