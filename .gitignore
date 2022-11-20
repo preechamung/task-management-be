@@ -5,7 +5,8 @@
 *.dll
 *.so
 *.dylib
-/pkg/common/envs
+# /pkg/common/envs
+.env
 # Test binary, built with `go test -c`
 *.test
 
