@@ -1,8 +1,10 @@
 package db
 
 import (
+	"fmt"
 	"log"
 
+	"github.com/preechamung/task-management-be/pkg/common/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -14,7 +16,9 @@ func Init(url string) *gorm.DB {
 		log.Fatalln(err)
 	}
 
-	// db.AutoMigrate(&models.Book{})
+	db.AutoMigrate(&models.User{})
+
+	fmt.Println("PostgreSQL connected successfully...")
 
 	return db
 }
